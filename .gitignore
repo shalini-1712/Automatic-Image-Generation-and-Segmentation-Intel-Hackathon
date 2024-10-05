@@ -1,0 +1,5 @@
+camvid_data
+cityscapes_data
+__pycache__
+checkpoints
+segmentation_checkpoint

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segmentation</title>
+    <style>
+        body {
+            overflow-y: hidden;
+            /* background-image: url('https://static.vecteezy.com/system/resources/previews/000/167/493/original/vector-highway-road-with-metal-traffic-barriers.jpg'); */
+            background-image: url('https://images.unsplash.com/photo-1529736576495-1ed4a29ca7e1?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHJvYWRzfGVufDB8fDB8fHww');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .gen_pics {
+            border: none;
+            margin: 0px 500px 20px 500px;
+            box-sizing: border-box;
+            box-shadow: black 0px 0px 40px;
+            background-color: rgba(255, 255, 255, 0.644);
+        }
+
+        .gen_pics .img_container {
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: auto auto;
+            justify-content: center;
+            height: 700px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .img_container img {
+            padding: 20px;
+            border: 3px solid black;
+        }
+
+        .realA {
+            margin-left: 5px;
+        }
+
+        .img_container h1 {
+            font-size: 25px;
+            color: crimson;
+        }
+
+        .cfile::file-selector-button {
+            font-size: 20px;
+            margin-right: 20px;
+            border: none;
+            background: #084cdf;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+        }
+
+        .cfile::file-selector-button:hover {
+            background: #0d45a5;
+        }
+
+
+        #num_to_gen {
+            width: 200px;
+            text-align: center;
+            font-size: 20px;
+            border: #084cdf 5px solid;
+            border-radius: 10px;
+            background-color: #084cdf;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        #num_to_gen::placeholder {
+            color: white;
+        }
+
+        #sub {
+            color: white;
+            background-color: rgb(34, 201, 34);
+            border: rgb(34, 201, 34);
+            padding: 10px 20px;
+            font-size: 20px;
+        }
+        #sub:hover {
+            cursor: pointer;
+            background-color: rgb(12, 163, 12);
+        }
+        .rad {
+            font-size: 30px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <center><h1 style="font-size: 40px;">IMAGE SEGMENTAION</h1></center>
+    <section class="gen_pics">
+        <h1><u>
+                <center style="font-size: 35px;">Segmented Images</center>
+            </u></h1><br>
+            <div class="img_container">
+                {% for i in images %}
+                <div class="fakeB">
+                    <img src="{{ i['real'] }}" alt="fakeB"
+                        width="494" height="336">
+                </div>
+                <div class="realA">
+                    <img src="{{ i['segment'] }}" alt="realA"
+                        width="494" height="336">
+                </div>
+                {% endfor %}
+            </div>
+    </section>
+    <section class="options">
+        <form action="{{ url_for('segmentation') }}" method="post"  enctype="multipart/form-data">
+            <center>
+                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                <div class="rad">
+                    <label for="model">Select model: </label>
+                    <input type="radio" name="model" id="city" value="cityscapes" checked>
+                    <label for="city">Cityscapes</label>
+                    <input type="radio" name="model" id="cam" value="camvid">
+                    <label for="cam">Camvid</label><br><br>
+                </div>
+                <input class="cfile" type="file" name="file" id="file" accept=".png,.jpg,.jpeg">
+                <hr><br>
+                <input type="submit" name="sub" id="sub" value="SEGMENT">
+            </center>
+        </form>
+    </section>
+</body>
+
+</html>
